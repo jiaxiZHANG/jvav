@@ -1,14 +1,8 @@
 [
-    {
-        "id": 1,
-        "title": "> 网站正式上线 / LAUNCH DAY",
-        "date": "2023-12-09",
-        "content": "**欢迎来到 JVAV！**\n\n这是一个完全运行在 GitHub Pages 上的静态网站Project。\n\n### 我们拥有什么？\n\n*   **实时互动**: 就在上方的 Live Canvas。\n*   **多人游戏**: 乱斗竞技场 (Neon Battle)。\n*   **经典棋类**: 象棋 & 国际象棋。\n\n> \"No Database, No Backend, Just Frontend.\"\n\n快去体验一下吧！"
-    },
-    {
-        "id": 2,
-        "title": "> 关于架构 / TECH STACK",
-        "date": "2023-12-08",
-        "content": "本项目探索了纯前端的应用极限。\n\n我们使用了 `MQTT` 协议来实现毫秒级的多人同步，完全绕过了传统的 HTTP 后端开发。\n\n```javascript\n// 核心逻辑\nconnectMQTT() {\n  this.client = new Paho.MQTT.Client(url, port, id);\n}\n```"
-    }
+  {
+    "id": 1,
+    "title": "> 网站正式上线 / LAUNCH DAY",
+    "date": "2023-12-09",
+    "content": "**欢迎来到 JVAV！**\n\n这是一个完全运行在 GitHub Pages 上的静态网站Project。\n\n### 我们拥有什么？\n\n*   **实时互动**: 就在上方的 Live Canvas。\n*   **多人游戏**: 乱斗竞技场 (Neon Battle)。\n*   **经典棋类**: 象棋 & 国际象棋。\n\n> \"No Database, No Backend, Just Frontend.\"\n\n快去体验一下吧！"
+  }
 ]
