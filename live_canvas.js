@@ -22,11 +22,11 @@ class LiveCanvas {
 
         // MQTT Configuration
         this.brokerUrl = "broker.emqx.io";
-        this.port = 8083;
+        this.port = 8084; // SSL PORT (Required for GitHub Pages)
         this.topic = "jvav/live/interaction";
 
         this.initCanvas();
-        this.initMQTT();
+        // this.initMQTT(); // Deferred to user action
         this.animate();
 
         // Resize Listener
@@ -36,9 +36,10 @@ class LiveCanvas {
     initCanvas() {
         this.resize();
         this.canvas.style.cursor = 'crosshair';
-        this.canvas.style.background = 'rgba(0, 0, 0, 0.3)';
+        this.canvas.style.background = 'rgba(0, 0, 0, 0.1)'; // Semi-transparent
         this.canvas.style.border = '1px solid #00ffff44';
         this.canvas.style.borderRadius = '4px';
+        this.canvas.style.touchAction = 'none'; // CRITICAL: Stop mobile scrolling
 
         // Event Listeners
         this.canvas.addEventListener('mousemove', (e) => this.onMove(e));
@@ -46,10 +47,58 @@ class LiveCanvas {
         this.canvas.addEventListener('mouseup', () => this.onUp());
         this.canvas.addEventListener('mouseout', () => this.onUp());
 
-        // Touch support
-        this.canvas.addEventListener('touchmove', (e) => { e.preventDefault(); this.onMove(e.touches[0]); }, { passive: false });
-        this.canvas.addEventListener('touchstart', (e) => { e.preventDefault(); this.onDown(e.touches[0]); }, { passive: false });
-        this.canvas.addEventListener('touchend', () => this.onUp());
+        // Touch support - Enhanced
+        this.canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (e.touches.length > 0) this.onMove(e.touches[0]);
+        }, { passive: false });
+        this.canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            if (e.touches.length > 0) this.onDown(e.touches[0]);
+        }, { passive: false });
+        this.canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            this.onUp();
+        });
+
+        this.createOverlay();
+    }
+
+    createOverlay() {
+        this.overlay = document.createElement('div');
+        this.overlay.style.position = 'absolute';
+        this.overlay.style.top = '0';
+        this.overlay.style.left = '0';
+        this.overlay.style.width = '100%';
+        this.overlay.style.height = '100%';
+        this.overlay.style.display = 'flex';
+        this.overlay.style.justifyContent = 'center';
+        this.overlay.style.alignItems = 'center';
+        this.overlay.style.background = 'rgba(0, 0, 0, 0.6)';
+        this.overlay.style.zIndex = '10';
+        this.overlay.style.cursor = 'pointer';
+
+        const btn = document.createElement('button');
+        btn.innerText = '点击加入互动 / Click to Connect';
+        btn.style.padding = '10px 20px';
+        btn.style.background = '#00ffff';
+        btn.style.color = '#000';
+        btn.style.border = 'none';
+        btn.style.fontFamily = 'Share Tech Mono, monospace';
+        btn.style.fontSize = '1.2rem';
+        btn.style.cursor = 'pointer';
+        btn.style.boxShadow = '0 0 10px #00ffff';
+        btn.style.pointerEvents = 'none'; // Let click pass to overlay
+
+        this.overlay.appendChild(btn);
+        this.container.appendChild(this.overlay);
+
+        const start = () => {
+            this.overlay.remove();
+            this.initMQTT(); // Connect now
+        };
+
+        this.overlay.addEventListener('click', start);
     }
 
     resize() {
@@ -68,7 +117,6 @@ class LiveCanvas {
 
         this.client.onConnectionLost = (responseObject) => {
             console.log("MQTT Connection Lost: " + responseObject.errorMessage);
-            // Reconnect logic could go here
         };
 
         this.client.onMessageArrived = (message) => {
@@ -95,7 +143,7 @@ class LiveCanvas {
     }
 
     publish(data) {
-        if (!this.client.isConnected()) return;
+        if (!this.client || !this.client.isConnected()) return;
         const message = new Paho.MQTT.Message(JSON.stringify({ ...data, id: this.myId, color: this.myColor }));
         message.destinationName = this.topic;
         this.client.send(message);
@@ -120,7 +168,6 @@ class LiveCanvas {
             this.lastPos = pos;
         }
 
-        // Throttle publishing slightly? For now send all
         this.publish(data);
     }
 
@@ -142,10 +189,10 @@ class LiveCanvas {
             user.color = data.color;
             user.lastSeen = Date.now();
         } else if (data.type === 'draw') {
-            // Draw remote stroke
             if (user.x !== undefined) {
                 this.drawStroke({ x: user.x, y: user.y }, { x: data.x, y: data.y }, data.color);
             }
+            // Also update position
             user.x = data.x;
             user.y = data.y;
             user.color = data.color;
@@ -167,9 +214,7 @@ class LiveCanvas {
     animate() {
         requestAnimationFrame(() => this.animate());
 
-        // Fade effect for trails/drawing (Optional: remove this to keep drawings permanent)
-        // User said "casually draw", implying a whiteboard. 
-        // But without db, persistence is impossible. So fading is better to clean up.
+        // Fade effect for trails/drawing
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; // Slow fade
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
