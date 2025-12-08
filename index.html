@@ -275,13 +275,13 @@
       <div id="article-feed">
         <section>Loading Articles...</section>
       </div>
-
       <!-- Markdown Parser -->
       <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
       <script>
         // Micro-CMS Loader (JSON Mode)
-        fetch('articles.json')
+        // Added timestamp to bypass browser cache
+        fetch('articles.json?t=' + new Date().getTime())
           .then(response => response.json())
           .then(data => {
             const feed = document.getElementById('article-feed');
