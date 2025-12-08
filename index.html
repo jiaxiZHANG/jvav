@@ -178,6 +178,15 @@
 
   <div class="menu-bar">
     <button id="menuButton" class="menu-button" onclick="toggleMenu()">菜单</button>
+
+    <!-- Online Counter UI -->
+    <div
+      style="float: right; color: #00ff00; font-family: 'Share Tech Mono', monospace; font-size: 0.9rem; padding: 5px 15px; display: flex; align-items: center; gap: 8px;">
+      <div id="online-indicator"
+        style="width: 8px; height: 8px; background: #00ff00; border-radius: 50%; box-shadow: 0 0 5px #00ff00;"></div>
+      <span>ONLINE: <span id="online-count-value">1</span></span>
+    </div>
+
     <div id="menuDropdown" class="menu-dropdown">
       <a href="index.html">首页</a>
       <a href="about.html">关于</a>
@@ -185,6 +194,25 @@
       <a href="#">帮助</a>
     </div>
   </div>
+
+
+  <!-- ... (rest of simple content) ... -->
+
+  <!-- DEPENDENCIES & SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.min.js"></script>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
+  <script src="live_canvas.js"></script>
+  <script src="presence.js"></script> <!-- New Presence Script -->
+  <script src="chess_game.js"></script>
+  <script src="shooter_game.js"></script>
 
   <div class="container">
     <header>
@@ -456,7 +484,7 @@
       </section>
     </main>
     <footer>
-      <p>&copy; 2023 JVAV. All rights reserved.</p>
+      <p>&copy; 2025 JVAV. All rights reserved.</p>
     </footer>
   </div>
 
@@ -472,6 +500,7 @@
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 
   <script src="live_canvas.js"></script>
+  <script src="presence.js"></script> <!-- Real-time Counter -->
   <script src="chess_game.js"></script>
   <script src="shooter_game.js"></script>
   <script src="platformer_game.js"></script>
