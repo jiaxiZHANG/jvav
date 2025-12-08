@@ -320,10 +320,14 @@
             try {
                 const token = localStorage.getItem('github_pat');
 
-                // Encode to Base64 (UTF8 safe)
+                // Robust Base64 Encoding
                 const contentStr = JSON.stringify(currentArticles, null, 2);
                 const u8 = new TextEncoder().encode(contentStr);
-                const b64 = btoa(String.fromCharCode.apply(null, u8));
+                let binaryString = '';
+                for (let i = 0; i < u8.length; i++) {
+                    binaryString += String.fromCharCode(u8[i]);
+                }
+                const b64 = btoa(binaryString);
 
                 const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
                     method: 'PUT',
@@ -348,6 +352,7 @@
 
                 renderList();
                 showStatus('Published successfully!', 'success');
+                alert(`SUCCESS: Changes committed to GitHub!\n\nCommit SHA: ${data.commit.sha.substring(0, 7)}\n\nNote: GitHub Pages may take 1-2 minutes to update the live site.`);
             } catch (e) {
                 console.error(e);
                 showStatus(`Publish Failed: ${e.message}`, 'error');
