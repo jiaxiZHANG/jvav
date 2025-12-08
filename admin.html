@@ -209,34 +209,35 @@
             showStatus('Loading articles from GitHub...', '');
             try {
                 const token = localStorage.getItem('github_pat');
-                headers: {
-                    'Authorization': `Bearer ${token}`,
+                const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
                         'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+
+                if (!res.ok) {
+                    if (res.status === 401) throw new Error("Invalid Token. Permission Denied.");
+                    throw new Error(`GitHub API Error: ${res.status}`);
                 }
-            });
 
-            if (!res.ok) {
-                if (res.status === 401) throw new Error("Invalid Token. Permission Denied.");
-                throw new Error(`GitHub API Error: ${res.status}`);
+                const data = await res.json();
+                fileSha = data.sha;
+
+                // Decode content (Base64 -> UTF8)
+                // Handling UTF8 characters properly
+                const content = new TextDecoder().decode(Uint8Array.from(atob(data.content), c => c.charCodeAt(0)));
+                currentArticles = JSON.parse(content);
+
+                renderList();
+                showStatus('Connected to Repository.', 'success');
+            } catch (e) {
+                console.error(e);
+                showStatus(e.message, 'error');
+                if (e.message.includes("Invalid Token")) {
+                    setTimeout(logout, 2000);
+                }
             }
-
-            const data = await res.json();
-            fileSha = data.sha;
-
-            // Decode content (Base64 -> UTF8)
-            // Handling UTF8 characters properly
-            const content = new TextDecoder().decode(Uint8Array.from(atob(data.content), c => c.charCodeAt(0)));
-            currentArticles = JSON.parse(content);
-
-            renderList();
-            showStatus('Connected to Repository.', 'success');
-        } catch (e) {
-            console.error(e);
-            showStatus(e.message, 'error');
-            if (e.message.includes("Invalid Token")) {
-                setTimeout(logout, 2000);
-            }
-        }
         }
 
         function renderList() {
