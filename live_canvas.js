@@ -149,8 +149,8 @@ class LiveCanvas {
         if (!text) return;
 
         // Double check length (HTML attribute should prevent this but just in case)
-        if (text.length > 30) {
-            alert("弹幕太长了！(Max 30)");
+        if (text.length > 10) {
+            alert("弹幕太长了！(Max 10)");
             return;
         }
 

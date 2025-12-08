@@ -194,7 +194,7 @@
       </div>
 
       <div style="text-align: center; margin-bottom: 15px; display: flex; justify-content: center; gap: 10px;">
-        <input type="text" id="danmaku-input" placeholder="发送实时弹幕 (Max 10字)" maxlength="30"
+        <input type="text" id="danmaku-input" placeholder="发送实时弹幕 (Max 10字)" maxlength="10"
           style="background: rgba(0,0,0,0.5); border: 1px solid #00ffff; color: #00ffff; padding: 5px 10px; border-radius: 4px; font-family: 'Share Tech Mono'; width: 250px;">
         <button id="btn-send-danmaku"
           style="background: #00ffff; color: #000; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer; font-family: 'Share Tech Mono'; font-weight: bold;">SEND</button>
@@ -230,7 +230,7 @@
           data-lang="zh-CN" crossorigin="anonymous" async>
           </script>
         <p style="font-size: 0.8rem; color: #666; text-align: center; margin-top: 10px;">
-          * 需要登录 GitHub 才能发言
+          * 需要登录 GitHub 才能发言，数据实时存储在 Discussions 中
         </p>
 
         <!-- Visitor Counter (Busuanzi) -->
@@ -245,10 +245,85 @@
           </span>
         </div>
       </section>
+
+      <!-- GAME CENTER -->
+      <section id="game-section" style="display: block; border-left: none; padding-bottom: 2rem;">
+        <h2
+          style="display: block; color: #ffff00; margin-top: 0; margin-bottom: 10px; font-size: 1.5rem; border-bottom: 1px solid #ffff0044; padding-bottom: 10px;">
+          > 游戏大厅 / GAME CENTER
+        </h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+          <!-- International Chess -->
+          <div
+            style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px; border: 1px solid #ffff0044; width: 340px;">
+            <h3 style="color: #ffff00; margin: 0 0 10px 0; text-align: center;">国际象棋 (International Chess)</h3>
+            <div id="board-chess" style="width: 320px; margin: 0 auto;"></div>
+            <div id="status-chess" style="color: #ccc; font-size: 0.8rem; margin-top: 5px; text-align: center;">
+              Waiting...</div>
+            <div style="text-align: center; margin-top: 10px;">
+              <button id="btn-chess-sit-w" style="font-size: 0.8rem;">Play White</button>
+              <button id="btn-chess-sit-b" style="font-size: 0.8rem;">Play Black</button>
+            </div>
+          </div>
+
+          <!-- Chinese Chess (Xiangqi) -->
+          <div
+            style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 4px; border: 1px solid #ff440044; width: 340px;">
+            <h3 style="color: #ff4400; margin: 0 0 10px 0; text-align: center;">中国象棋 (Xiangqi)</h3>
+            <div id="board-xiangqi"
+              style="width: 320px; height: 360px; margin: 0 auto; position: relative; background: #dcb35c; border: 2px solid #5a3c18;">
+            </div>
+            <div id="status-xiangqi" style="color: #ccc; font-size: 0.8rem; margin-top: 5px; text-align: center;">
+              Waiting...</div>
+            <div style="text-align: center; margin-top: 10px;">
+              <button id="btn-xiangqi-sit-r" style="font-size: 0.8rem;">Play Red</button>
+              <button id="btn-xiangqi-sit-b" style="font-size: 0.8rem;">Play Black</button>
+              <button id="btn-xiangqi-reset" style="font-size: 0.8rem;">Reset Board</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SHOOTER GAME -->
+      <section id="shooter-section" style="display: block; border-left: none; padding-bottom: 2rem;">
+        <h2
+          style="display: block; color: #ff00ff; margin-top: 0; margin-bottom: 10px; font-size: 1.5rem; border-bottom: 1px solid #ff00ff44; padding-bottom: 10px;">
+          > 乱斗竞技场 / BATTLE ARENA (2D Shooter)
+        </h2>
+        <div style="text-align: center;">
+          <div id="shooter-container"
+            style="position: relative; width: 100%; max-width: 800px; height: 400px; margin: 0 auto; background: #000; border: 2px solid #ff00ff; overflow: hidden;">
+            <canvas id="shooter-canvas" width="800" height="400"
+              style="display: block; width: 100%; height: 100%;"></canvas>
+
+            <!-- Overlay -->
+            <div id="shooter-overlay"
+              style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.7); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10;">
+              <h3 style="color: #ff00ff; font-family: 'Share Tech Mono'; font-size: 2rem; margin: 0;">NEON BATTLE</h3>
+              <p style="color: #fff; margin: 10px 0;">WASD to Move | Mouse to Aim & Shoot</p>
+              <button id="btn-join-shooter"
+                style="padding: 10px 30px; font-size: 1.2rem; background: #ff00ff; color: #fff; border: none; font-family: 'Share Tech Mono'; cursor: pointer; margin-top: 10px;">JOIN
+                GAME</button>
+              <div id="shooter-status" style="color: #ccc; margin-top: 10px; font-size: 0.8rem;">Online Players: 0</div>
+            </div>
+
+            <!-- HUD -->
+            <div id="shooter-hud"
+              style="position: absolute; top: 10px; left: 10px; z-index: 5; display: none; pointer-events: none;">
+              <div style="color: #fff; font-size: 1.2rem;">HP: <span id="shooter-hp" style="color: #0f0;">100</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   </div>
 
   <!-- Dependencies -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
   <script src="https://unpkg.com/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
@@ -266,6 +341,17 @@
     if (document.getElementById('live-canvas-container')) {
       new LiveCanvas('live-canvas-container');
     }
+  </script>
+
+  <!-- Chess Games -->
+  <script src="chess_game.js"></script>
+  <script src="shooter_game.js"></script>
+  <script>
+    // Initialize games after load
+    window.addEventListener('load', () => {
+      new ChessGameManager();
+      new ShooterGame('shooter-canvas');
+    });
   </script>
 
   <!-- Saturn Background -->
