@@ -172,7 +172,7 @@ class ShooterGame {
         // Network bullet
         this.publish({ type: 'shoot', x: this.me.x, y: this.me.y, angle: this.me.angle });
 
-        this.me.cooldown = 10;
+        this.me.cooldown = 5;
     }
 
     takeDamage(amount) {

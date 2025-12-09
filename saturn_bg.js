@@ -9,11 +9,11 @@
  */
 
 const saturnConfig = {
-    particleCount: 80000,
-    saturnRadius: 20,
-    ringInnerRadius: 25,
-    ringOuterRadius: 60,
-    cameraZ: 100,
+    particleCount: 100000, // More particles for richer effect
+    saturnRadius: 25, // Bigger core
+    ringInnerRadius: 30,
+    ringOuterRadius: 70,
+    cameraZ: 60, // Closer camera = bigger Saturn
     bloomStrength: 2.5,
     bloomRadius: 0.8,
     bloomThreshold: 0.2,
@@ -268,3 +268,8 @@ class SaturnBackground {
         }
     }
 }
+
+// Auto-init
+window.addEventListener('load', () => {
+    new SaturnBackground('saturn-container');
+});

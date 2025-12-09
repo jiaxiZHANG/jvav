@@ -16,9 +16,9 @@ class MinesweeperGame {
         this.container = document.getElementById(containerId);
 
         // Configuration
-        this.rows = 16;
-        this.cols = 16;
-        this.minesCount = 40; // Standard Hard
+        this.rows = 9;
+        this.cols = 9;
+        this.minesCount = 10; // Standard Easy (Mobile Friendly)
 
         // State
         this.grid = [];
@@ -86,7 +86,7 @@ class MinesweeperGame {
         // Header
         const header = document.createElement('div');
         header.innerHTML = `
-            <h2 style="color:#ff0055; margin-bottom:5px; text-shadow: 0 0 10px #ff0055;">> GLOBAL MINEFIELD (CO-OP)</h2>
+            <h2 class="hacker-text" data-value="> GLOBAL MINEFIELD (CO-OP)" style="color:#ff0055; margin-bottom:5px; text-shadow: 0 0 10px #ff0055;">> GLOBAL MINEFIELD (CO-OP)</h2>
             <div id="ms-status" style="font-size:0.8rem; color:#666; margin-bottom:15px; font-family:monospace;">CONNECTING...</div>
         `;
         this.container.appendChild(header);

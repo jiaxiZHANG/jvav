@@ -13,10 +13,15 @@
       box-sizing: border-box;
     }
 
+    html {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    }
+
     body {
       margin: 0;
       font-family: 'Share Tech Mono', monospace;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      background: transparent;
+      /* Allow Saturn to show through */
       color: #cfd8dc;
       display: flex;
       justify-content: center;
@@ -29,13 +34,15 @@
     .container {
       max-width: 960px;
       width: 100%;
-      background: rgba(16, 32, 39, 0.85);
+      background: rgba(16, 32, 39, 0.7);
+      /* More transparent to see Saturn */
       padding: 2rem;
       border-radius: 12px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 0 20px #00ffff44;
       text-align: left;
       border: 1px solid rgba(0, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(5px);
+      /* Less blur for more visibility */
       position: relative;
       z-index: 1;
       margin-top: 60px;
@@ -188,10 +195,10 @@
     </div>
 
     <div id="menuDropdown" class="menu-dropdown">
-      <a href="index.html">首页</a>
-      <a href="about.html">关于</a>
-      <a href="contact.html">联系</a>
-      <a href="#">帮助</a>
+      <a href="index.html" class="hacker-text" data-value="首页 / HOME">首页</a>
+      <a href="about.html" class="hacker-text" data-value="关于 / ABOUT">关于</a>
+      <a href="contact.html" class="hacker-text" data-value="联系 / CONTACT">联系</a>
+      <a href="#" class="hacker-text" data-value="帮助 / HELP">帮助</a>
     </div>
   </div>
 
@@ -210,13 +217,14 @@
   <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 
   <script src="live_canvas.js"></script>
+  <script src="saturn_bg.js"></script> <!-- Restored Background -->
   <script src="presence.js"></script> <!-- New Presence Script -->
   <script src="chess_game.js"></script>
   <script src="shooter_game.js"></script>
 
   <div class="container">
     <header>
-      <h1>JVAV</h1>
+      <h1 class="hacker-text" data-value="JVAV">JVAV</h1>
       <div id="danmaku-stage"
         style="width: 100%; height: 120px; position: relative; overflow: hidden; margin-bottom: 10px; border-top: 1px solid #00ffff22; border-bottom: 1px solid #00ffff22;">
       </div>
@@ -345,16 +353,18 @@
 
       <!-- LIVE PLAYGROUND -->
       <section id="live-playground-section" style="display: block; border-left: none; padding-bottom: 2rem;">
-        <h2
+        <h2 class="hacker-text" data-value="> 实时互动画布 / LIVE CANVAS"
           style="display: block; color: #ff00ff; margin-top: 0; margin-bottom: 10px; font-size: 1.5rem; border-bottom: 1px solid #ff00ff44; padding-bottom: 10px;">
           > 实时互动画布 / LIVE CANVAS</h2>
         <p style="font-size: 0.9rem; color: #ff00ffaa; margin-bottom: 10px;">> 在这里移动鼠标或绘画，其他在线用户都能实时看到！(无需登录)</p>
         <div id="live-canvas-container" style="width: 100%; height: 300px; position: relative;"></div>
       </section>
 
+
+
       <!-- CHAT ROOM -->
       <section style="display: block; height: auto; padding-top: 1rem; padding-bottom: 1rem;">
-        <h2
+        <h2 class="hacker-text" data-value="> 公共频道 / CHAT ROOM"
           style="display: block; color: #00ffff; margin-top: 0; margin-bottom: 20px; font-size: 1.5rem; border-bottom: 1px solid #00ffff44; padding-bottom: 10px;">
           > 公共频道 / CHAT ROOM</h2>
         <div
@@ -368,7 +378,7 @@
 
       <!-- GAME CENTER (Chess) -->
       <section id="game-section" style="display: block; border-left: none; padding-bottom: 2rem;">
-        <h2
+        <h2 class="hacker-text" data-value="> 游戏大厅 / GAME CENTER"
           style="display: block; color: #ffff00; margin-top: 0; margin-bottom: 10px; font-size: 1.5rem; border-bottom: 1px solid #ffff0044; padding-bottom: 10px;">
           > 游戏大厅 / GAME CENTER</h2>
         <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
@@ -404,7 +414,7 @@
 
       <!-- SHOOTER GAME -->
       <section id="shooter-section" style="display: block; border-left: none; padding-bottom: 2rem;">
-        <h2
+        <h2 class="hacker-text" data-value="> 乱斗竞技场 / BATTLE ARENA"
           style="display: block; color: #ff00ff; margin-top: 0; margin-bottom: 10px; font-size: 1.5rem; border-bottom: 1px solid #ff00ff44; padding-bottom: 10px;">
           > 乱斗竞技场 / BATTLE ARENA</h2>
         <div style="text-align: center;">
@@ -432,7 +442,7 @@
 
       <!-- PLATFORMER GAME -->
       <section id="platformer-section" style="display: block; border-left: none; padding-bottom: 2rem;">
-        <h2
+        <h2 class="hacker-text" data-value="> 乱斗竞技场 II / SMASH ARENA"
           style="display: block; color: #ff00ff; margin-top: 0; margin-bottom: 10px; font-size: 1.5rem; border-bottom: 1px solid #ff00ff44; padding-bottom: 10px;">
           > 乱斗竞技场 II / SMASH ARENA</h2>
         <div style="text-align: center;">
@@ -464,28 +474,17 @@
         <!-- Game renders here -->
       </section>
 
-      <!-- Chat Room -->
-      <section id="chat-room" style="max-height: 800px; display: flex; flex-direction: column;">
-        <h2 class="hacker-text" data-value="> CHAT / 聊天室">> CHAT / 聊天室</h2>
-        <div id="giscus-container" style="flex-grow: 1; overflow-y: auto; padding-right: 10px;">
-          <script src="https://giscus.app/client.js" data-repo="J-x-Z/jvav" data-repo-id="R_kgDONa7Y6g"
-            data-category="General" data-category-id="DIC_kwDONa7Y6s4ClKFP" data-mapping="pathname" data-strict="0"
-            data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="dark_dimmed"
-            data-lang="zh-CN" crossorigin="anonymous" async>
-            </script>
-        </div>
+
+
+      <footer style="text-align: center; padding: 20px; border-top: 1px solid #333; margin-top: 20px;">
+        <p>&copy; 2025 JVAV. All rights reserved.</p>
         <!-- Visitor Counter -->
-        <div
-          style="margin-top: 20px; text-align: center; font-size: 0.8rem; color: #666; border-top: 1px solid #333; padding-top: 10px;">
+        <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">
           <span id="busuanzi_container_site_pv" style="display:none">
             VISITS: <span id="busuanzi_value_site_pv" style="color: #00ffff;"></span>
           </span>
         </div>
-      </section>
-    </main>
-    <footer>
-      <p>&copy; 2025 JVAV. All rights reserved.</p>
-    </footer>
+      </footer>
   </div>
 
   <!-- DEPENDENCIES & SCRIPTS -->
@@ -510,6 +509,16 @@
   <script>
     // Initialize All Games
     window.addEventListener('load', () => {
+      // Init Saturn Background
+      try {
+        if (typeof SaturnBackground !== 'undefined') {
+          new SaturnBackground('saturn-container');
+          console.log('SaturnBackground initialized.');
+        } else {
+          console.error('SaturnBackground class not found. Check saturn_bg.js.');
+        }
+      } catch (e) { console.error('Saturn Init Error:', e); }
+
       try {
         window.ChessGameManager ? new window.ChessGameManager() : console.warn('Chess not loaded');
       } catch (e) { console.error('Chess Init Error:', e); }

@@ -187,7 +187,7 @@ class PlatformerGame {
         });
 
         this.publish({ type: 'shoot', x: this.me.x, y: this.me.y, angle: this.me.angle });
-        this.me.cooldown = 15;
+        this.me.cooldown = 5;
     }
 
     takeDamage(amount) {
